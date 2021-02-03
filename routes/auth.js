@@ -16,7 +16,7 @@ router.post('/signup', (req, res) => {
 
     if (!passwordConfig.validate(req.body.password)) {
         return res.status(StatusCodes.BAD_REQUEST)
-            .json(new Response({}, UserConst.PASSWORD_NOT_VALID_MESSAGE))
+            .json(Response.withError(UserConst.PASSWORD_NOT_VALID_MESSAGE))
     }
 
     User.create({
@@ -31,11 +31,11 @@ router.post('/signup', (req, res) => {
 
         if (err) {
             return res.status(StatusCodes.BAD_REQUEST)
-                .json(new Response({}, err.message))
+                .json(Response.withError(err.message))
         }
 
         res.status(StatusCodes.CREATED)
-            .json(new Response(generateToken(user)))
+            .json(Response.withData(generateToken(user)))
     })
 })
 
@@ -45,16 +45,16 @@ router.post('/login', (req, res) => {
 
         if (err) {
             return res.status(StatusCodes.BAD_REQUEST)
-                .json(new Response({}, err.message))
+                .json(Response.withError(err.message))
         }
 
         if (!user || user.password !== md5(req.body.password)) {
             return res.status(StatusCodes.BAD_REQUEST)
-                .json(new Response({}, 'Invalid credentional!'))
+                .json(Response.withError('Invalid credentional!'))
         }
     
         res.status(StatusCodes.OK)
-            .json(new Response(generateToken(user)))
+            .json(Response.withData(generateToken(user)))
     })    
 })
 

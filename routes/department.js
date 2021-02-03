@@ -12,11 +12,11 @@ router.get('/', (req, res) => {
     Department.find((err, data) => {
         if (err) {
             return res.status(StatusCodes.BAD_REQUEST)
-                .json(new Response({}, err.message))
+                .json(Response.withError(err.message))
         }
 
         res.status(StatusCodes.OK)
-            .json(new Response(data))
+            .json(Response.withData(data))
     })
 })
 
@@ -25,11 +25,11 @@ router.get('/:id', (req, res) => {
     Department.findById(req.params.id, (err, data) => {
         if (err) {
             return res.status(StatusCodes.BAD_REQUEST)
-                .json(new Response({}, err.message))
+                .json(Response.withError(err.message))
         }
 
         res.status(StatusCodes.OK)
-            .json(new Response(data))
+            .json(Response.withData(data))
     }).populate('head')
 })
 
@@ -41,10 +41,10 @@ router.post('/', adminAccess, (req, res) => {
     }, (err, data) => {
         if (err) {
             return res.status(StatusCodes.BAD_REQUEST)
-                .json(new Response({}, err.message))
+                .json(Response.withError(err.message))
         }
         res.status(StatusCodes.CREATED)
-            .json(new Response(data))
+            .json(Response.withData(data))
     })
 })
 
@@ -58,10 +58,10 @@ router.patch('/:id', adminAccess, (req, res) => {
         }, (err, data) => {
             if (err) {
                 return res.status(StatusCodes.BAD_REQUEST)
-                    .json(new Response({}, err.message))
+                    .json(Response.withError(err.message))
             }
             res.status(StatusCodes.OK)
-                .json(new Response(data))
+                .json(Response.withData(data))
         }) 
 })
 
@@ -70,10 +70,10 @@ router.delete('/:id', adminAccess, (req, res) => {
     Department.findByIdAndDelete(req.params.id, (err, data) => {
         if (err) {
             return res.status(StatusCodes.BAD_REQUEST)
-                .json(new Response({}, err.message))
+                .json(Response.withError(err.message))
         }
         res.status(StatusCodes.OK)
-            .json(new Response(data))
+            .json(Response.withData(data))
     })
 })
 
